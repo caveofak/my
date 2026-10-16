@@ -1,0 +1,80 @@
+{
+  "manifest_version": "0.3",
+  "name": "claude-watermark-remover",
+  "display_name": "Claude Watermark Remover",
+  "version": "0.2.3",
+  "description": "Rewrite ChatGPT, Claude and Gemini text so its statistical watermark no longer matches, with your own OpenRouter key. Free models included.",
+  "long_description": "One rewrite by one model that is instructed to keep the meaning, structure, formatting and language of your text; links, quotations, amounts and percentages return unchanged. Your text goes only to OpenRouter with your own key. Measured on SynthID Text with a research key; the ChatGPT, Claude and Gemini detectors are not public, so complete removal cannot be verified. Hosted version without keys, for claude.ai on the web and phones: https://painintheagent.com",
+  "author": {
+    "name": "Kirill Balakhonov",
+    "url": "https://painintheagent.com/about/"
+  },
+  "homepage": "https://github.com/balakhonoff/claude-watermark-remover",
+  "documentation": "https://github.com/balakhonoff/claude-watermark-remover#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/balakhonoff/claude-watermark-remover.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "watermark",
+    "synthid",
+    "textgrain",
+    "chatgpt",
+    "claude",
+    "gemini",
+    "rewrite",
+    "openrouter",
+    "mcp"
+  ],
+  "server": {
+    "type": "node",
+    "entry_point": "dist/index.cjs",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/dist/index.cjs"
+      ],
+      "env": {
+        "OPENROUTER_API_KEY": "${user_config.openrouter_api_key}",
+        "WATERMARK_MODEL": "${user_config.model}"
+      }
+    }
+  },
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "win32",
+      "linux"
+    ],
+    "runtimes": {
+      "node": ">=22.0.0"
+    }
+  },
+  "tools": [
+    {
+      "name": "remove_watermark",
+      "description": "Rewrite the wording of a text and report the share of five-word sequences replaced; links, quotes, amounts and the layout stay."
+    },
+    {
+      "name": "get_configuration",
+      "description": "Read the configured model and the measured presets."
+    }
+  ],
+  "user_config": {
+    "openrouter_api_key": {
+      "type": "string",
+      "title": "OpenRouter API key",
+      "description": "Create one at https://openrouter.ai/settings/keys. A free OpenRouter account is enough. It is stored by Claude Desktop and never leaves your computer except to OpenRouter.",
+      "sensitive": true,
+      "required": true
+    },
+    "model": {
+      "type": "string",
+      "title": "Model",
+      "description": "OpenRouter free models, tried in this order; ids ending in :free, separated by commas. Free models are slow and are withdrawn without notice; see the README for what was measured.",
+      "default": "inclusionai/ling-3.0-flash-sante:free,nvidia/nemotron-3-super-120b-a12b:free",
+      "required": false
+    }
+  }
+}
